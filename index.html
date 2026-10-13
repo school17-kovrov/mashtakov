@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Павел Маштаков</title>
+<meta name="description" content="Мемориальный сайт Героя Советского Союза Павла Семёновича Маштакова. Школа № 17 города Коврова.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<style>
+/* Layout: one narrow reading column (phone-first), full-bleed bands for the hero, facts and the route map; guards-ribbon stripe as the recurring mark */
+:root{
+  --bg:#13130f;         /* шинель в сумерках */
+  --surface:#1c1c17;
+  --surface-2:#25251e;
+  --fg:#ebe5d4;
+  --muted:#a29c89;
+  --line:#3a392f;
+  --gold:#dcb54c;       /* «Золотая Звезда» */
+  --gold-soft:rgba(220,181,76,.14);
+  --orange:#e07b22;     /* гвардейская лента */
+  --ribbon-dark:#16140f;
+  --red:#c2412f;
+  --paper:#e8e1cc;      /* наградной лист */
+  --paper-ink:#2a2619;
+  --ok:#7fae6a;
+  --bad:#d0624f;
+  --f-display:"Oswald","Arial Narrow","Roboto Condensed",sans-serif;
+  --f-body:"PT Serif",Georgia,"Times New Roman",serif;
+  --f-mono:"PT Mono","Courier New",monospace;
+  --s-1:.8125rem; --s0:1.0625rem; --s1:1.25rem; --s2:1.6rem; --s3:2.2rem; --s4:clamp(2.6rem,11vw,5.2rem);
+  --gutter:clamp(16px,5vw,40px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#e8e6de; --surface:#f4f2ec; --surface-2:#dedbd0; --fg:#1d1c16; --muted:#5d594b; --line:#c9c5b6;
+    --gold:#94700f; --gold-soft:rgba(148,112,15,.12); --orange:#bf5e0c; --ribbon-dark:#1d1c16; --red:#a5301f;
+    --paper:#f7f2e2; --paper-ink:#2a2619; --ok:#3f7a2a; --bad:#b23b26; color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#e8e6de; --surface:#f4f2ec; --surface-2:#dedbd0; --fg:#1d1c16; --muted:#5d594b; --line:#c9c5b6;
+  --gold:#94700f; --gold-soft:rgba(148,112,15,.12); --orange:#bf5e0c; --ribbon-dark:#1d1c16; --red:#a5301f;
+  --paper:#f7f2e2; --paper-ink:#2a2619; --ok:#3f7a2a; --bad:#b23b26; color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.1;text-wrap:balance;margin:0;letter-spacing:.01em}
+p{margin:0}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:680px;margin-inline:auto;padding-inline:var(--gutter)}
+.eyebrow{font-family:var(--f-mono);font-size:var(--s-1);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ribbon{height:10px;background:repeating-linear-gradient(90deg,var(--orange) 0 20%,var(--ribbon-dark) 20% 26.66%);background:linear-gradient(90deg,var(--orange) 0 14%,var(--ribbon-dark) 14% 29%,var(--orange) 29% 43%,var(--ribbon-dark) 43% 57%,var(--orange) 57% 71%,var(--ribbon-dark) 71% 86%,var(--orange) 86% 100%)}
+
+/* scroll progress */
+#progress{position:fixed;left:0;top:0;height:4px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:60;
+  background:linear-gradient(90deg,var(--orange) 0 14%,var(--ribbon-dark) 14% 29%,var(--orange) 29% 43%,var(--ribbon-dark) 43% 57%,var(--orange) 57% 71%,var(--ribbon-dark) 71% 86%,var(--orange) 86% 100%);margin-top:env(safe-area-inset-top,0px)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding-block:56px 40px;isolation:isolate}
+.hero canvas{position:absolute;inset:auto 0 0 0;width:100%;height:70%;z-index:-1;pointer-events:none;opacity:.8}
+.hero .wrap{display:grid;gap:22px}
+.star-wrap{width:92px;height:92px}
+.star-wrap svg{width:100%;height:100%;overflow:visible}
+.star-outline{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:400;stroke-dashoffset:400;animation:draw 1.6s ease-out .2s forwards}
+.star-fill{fill:var(--gold);opacity:0;animation:fadein .8s ease-out 1.5s forwards}
+.star-glow{fill:var(--gold);opacity:0;filter:blur(14px);animation:glow 4s ease-in-out 2s infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadein{to{opacity:1}}
+@keyframes glow{0%,100%{opacity:.15}50%{opacity:.4}}
+.hero h1{font-size:var(--s4);text-transform:uppercase;font-weight:700;letter-spacing:.005em;line-height:.98}
+.hero h1 .first{display:block;font-size:.42em;font-weight:500;color:var(--muted);letter-spacing:.06em;margin-bottom:.15em}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line>span{display:inline-block;transform:translateY(0);animation:rise 1s cubic-bezier(.2,.7,.1,1) both}
+.hero h1 .line:nth-child(2)>span{animation-delay:.15s}
+@keyframes rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
+.hero .years{font-family:var(--f-display);font-size:var(--s2);color:var(--gold);letter-spacing:.08em}
+.lead{font-size:var(--s1);line-height:1.5;max-width:34ch}
+.lead em{color:var(--gold);font-style:normal}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.btn{font-family:var(--f-display);font-size:1rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:13px 20px;border-radius:2px;border:1px solid var(--gold);color:var(--bg);background:var(--gold);cursor:pointer;transition:transform .2s,background .2s}
+.btn.ghost{background:transparent;color:var(--gold)}
+.btn:active{transform:scale(.97)}
+
+/* NAV */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+.nav ul{list-style:none;margin:0;padding:10px var(--gutter);display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;max-width:900px;margin-inline:auto}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a{display:block;white-space:nowrap;font-family:var(--f-display);font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:6px 12px;border:1px solid var(--line);border-radius:999px;transition:color .2s,border-color .2s,background .2s}
+.nav a.active{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+
+/* SECTIONS */
+section{padding-block:64px 8px;scroll-margin-top:56px}
+.sec-head{display:grid;gap:10px;margin-bottom:28px}
+.sec-head h2{font-size:var(--s3);text-transform:uppercase}
+.sec-head p{color:var(--muted)}
+.prose{display:grid;gap:1em}
+
+/* reveal: elements stay visible at rest, below-the-fold ones get a gentle lift */
+.rv{transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.1,1)}
+.rv.pre{opacity:.2;transform:translateY(28px)}
+
+/* FACTS */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-block:1px solid var(--line);margin-top:8px}
+.fact{background:var(--surface);padding:22px 16px;display:grid;gap:4px;align-content:start}
+.fact b{font-family:var(--f-display);font-size:clamp(2.4rem,12vw,3.4rem);font-weight:600;color:var(--gold);line-height:1;font-variant-numeric:tabular-nums}
+.fact span{font-size:var(--s-1);color:var(--muted);line-height:1.35}
+@media(min-width:720px){.facts{grid-template-columns:repeat(4,1fr)}}
+
+/* TIMELINE */
+.tl{position:relative;display:grid;gap:30px;padding-left:28px}
+.tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl .fill{position:absolute;left:7px;top:6px;width:2px;height:0;background:linear-gradient(var(--gold),var(--orange));transition:height .15s linear}
+.ti{position:relative;display:grid;gap:4px}
+.ti::before{content:"";position:absolute;left:-27px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--muted);transition:border-color .4s,background .4s,transform .4s}
+.ti.lit::before{border-color:var(--gold);background:var(--gold);transform:scale(1.1)}
+.ti.key::before{border-radius:0;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);width:20px;height:20px;left:-30px;top:2px;border:none;background:var(--muted)}
+.ti.key.lit::before{background:var(--gold)}
+.ti time{font-family:var(--f-mono);font-size:var(--s-1);color:var(--gold);letter-spacing:.06em}
+.ti h3{font-size:var(--s1);font-weight:500}
+.ti p{color:var(--muted);font-size:.98rem}
+
+/* FEAT */
+.doc{background:var(--paper);color:var(--paper-ink);font-family:var(--f-mono);font-size:.94rem;line-height:1.6;padding:22px 18px 26px;border-radius:2px;position:relative;box-shadow:0 18px 40px -20px rgba(0,0,0,.6);transform:rotate(-.6deg)}
+.doc::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 85% 12%,rgba(120,90,30,.12),transparent 40%),radial-gradient(circle at 10% 90%,rgba(120,90,30,.1),transparent 35%)}
+.doc h3{font-family:var(--f-mono);font-weight:400;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;text-align:center;border-bottom:1px solid rgba(42,38,25,.35);padding-bottom:10px;margin-bottom:14px}
+.doc p+p{margin-top:.8em}
+.doc .note{font-size:.75rem;opacity:.7;margin-top:14px}
+.stamp{position:absolute;right:12px;bottom:10px;font-family:var(--f-display);font-size:.8rem;letter-spacing:.1em;color:#9d2a1c;border:2px solid #9d2a1c;padding:3px 8px;transform:rotate(-8deg);opacity:.75}
+
+.crew{display:grid;gap:14px;margin-block:36px;padding:22px 18px;background:var(--surface);border:1px solid var(--line)}
+.crew-row{display:flex;justify-content:space-between;gap:6px;max-width:360px}
+.crew-row svg{width:15%;height:auto;max-width:48px}
+.crew-row svg path,.crew-row svg circle{fill:var(--muted);transition:opacity 1s ease,fill .6s}
+.crew-row svg.gone path,.crew-row svg.gone circle{opacity:.15}
+.crew-row svg.hero-fig path,.crew-row svg.hero-fig circle{fill:var(--gold)}
+.crew p{font-size:.95rem;color:var(--muted)}
+.crew strong{color:var(--fg)}
+
+.aside{border-left:3px solid var(--orange);padding:4px 0 4px 16px;display:grid;gap:6px}
+.aside h3{font-size:1.05rem;text-transform:uppercase;letter-spacing:.05em;color:var(--orange)}
+.aside p{font-size:.97rem;color:var(--muted)}
+
+/* MAP */
+.map-box{background:var(--surface);border-block:1px solid var(--line);padding-block:20px}
+.map-box svg{display:block;width:100%;height:auto;max-width:720px;margin-inline:auto}
+.map-grid{stroke:var(--line);stroke-width:.6;fill:none}
+.route{fill:none;stroke:var(--orange);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.route-bg{fill:none;stroke:var(--line);stroke-width:2.4;stroke-dasharray:3 5}
+.pt circle{fill:var(--bg);stroke:var(--gold);stroke-width:2}
+.pt.on circle{fill:var(--gold)}
+.pt text{font-family:var(--f-display);font-size:13px;fill:var(--fg);letter-spacing:.02em}
+.pt text.y{font-family:var(--f-mono);font-size:10px;fill:var(--muted)}
+.pt{cursor:pointer}
+.map-cap{font-size:var(--s-1);color:var(--muted);text-align:center;margin-top:8px;padding-inline:var(--gutter)}
+.stops{display:grid;gap:8px;margin-top:18px}
+.stop{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:12px 14px;border:1px solid var(--line);background:var(--bg);text-align:left;color:var(--fg);font:inherit;cursor:pointer;transition:border-color .3s,background .3s}
+.stop .n{font-family:var(--f-mono);color:var(--gold);font-size:.85rem;grid-row:span 2}
+.stop b{font-family:var(--f-display);font-weight:500;font-size:1.05rem}
+.stop span{font-size:.92rem;color:var(--muted)}
+.stop .ctx{grid-column:2;font-size:.88rem;color:var(--fg);border-top:1px dashed var(--line);padding-top:8px;margin-top:6px;display:none}
+.stop.sel .ctx{display:block;animation:open .4s ease}
+.stop .ctx i{font-style:normal;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:2px}
+.stop.sel{border-color:var(--gold);background:var(--gold-soft)}
+
+/* AWARDS */
+.awards{display:grid;gap:12px}
+.aw{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;padding:14px;background:var(--surface);border:1px solid var(--line);cursor:pointer;text-align:left;color:var(--fg);font:inherit;width:100%}
+.aw svg{width:64px;height:64px}
+.aw h3{font-size:1.08rem;font-weight:500}
+.aw time{font-family:var(--f-mono);font-size:.8rem;color:var(--gold)}
+.aw .more{grid-column:1/-1;font-size:.95rem;color:var(--muted);display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
+.aw .more>div{overflow:hidden}
+.aw[aria-expanded="true"]{border-color:var(--gold)}
+.aw[aria-expanded="true"] .more{grid-template-rows:1fr}
+.aw .more p{padding-top:10px;border-top:1px dashed var(--line);margin-top:4px}
+.aw.main{background:linear-gradient(135deg,var(--gold-soft),var(--surface) 60%);border-color:var(--gold)}
+.hint{font-size:var(--s-1);color:var(--muted);margin-top:10px}
+
+/* VICTORY */
+.banner{position:relative;margin-block:8px 28px;padding:28px 20px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.flag{width:110px;height:auto;float:right;margin:0 0 8px 12px}
+.flag .cloth{fill:var(--red);transform-origin:8px 10px;animation:wave 3.5s ease-in-out infinite}
+@keyframes wave{0%,100%{transform:skewY(0) scaleX(1)}50%{transform:skewY(2deg) scaleX(.96)}}
+.flag .pole{fill:var(--muted)}
+.term{display:inline;border-bottom:1px dashed var(--gold);cursor:help}
+
+/* MEMORY */
+.mem{display:grid;gap:10px}
+.mem li{list-style:none;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+.mem ul{padding:0;margin:0}
+.mem .tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--gold);color:var(--gold);white-space:nowrap;margin-top:3px}
+.mem .tag.k{background:var(--gold);color:var(--bg)}
+.school{margin-top:30px;padding:24px 20px;background:var(--surface);border:1px solid var(--gold);display:grid;gap:10px}
+.school h3{font-size:var(--s1);text-transform:uppercase;color:var(--gold)}
+
+/* PERSON */
+.cards{display:grid;gap:12px}
+@media(min-width:620px){.cards{grid-template-columns:1fr 1fr}.cards .card:last-child{grid-column:1/-1}}
+.card{padding:18px 18px 20px;background:var(--surface);border-top:3px solid var(--gold);display:grid;gap:8px;align-content:start;min-width:0}
+.card-k{font-family:var(--f-display);font-size:1.1rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold)}
+.card p{font-size:.98rem}
+
+/* GLOSSARY */
+.gloss{display:grid;border-top:1px solid var(--line)}
+.gloss details{border-bottom:1px solid var(--line)}
+.gloss summary{list-style:none;cursor:pointer;padding:15px 36px 15px 0;font-family:var(--f-display);font-size:1.12rem;font-weight:500;position:relative}
+.gloss summary::-webkit-details-marker{display:none}
+.gloss summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:1.5rem;color:var(--gold);transition:transform .3s}
+.gloss details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.gloss details p{padding:0 0 16px;color:var(--muted);animation:open .4s ease}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* SOURCES CHECK */
+.diffs{display:grid;gap:14px}
+.diff{padding:16px;background:var(--surface);border:1px solid var(--line);display:grid;gap:8px}
+.diff h3{font-size:1.05rem;font-weight:500}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vs div{padding:10px;border:1px solid var(--line);font-size:.9rem;background:var(--bg);min-width:0}
+.vs small{display:block;font-family:var(--f-mono);font-size:.7rem;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.diff p{font-size:.93rem;color:var(--muted)}
+
+/* QUIZ */
+.quiz{background:var(--surface);border:1px solid var(--line);padding:22px 18px;display:grid;gap:16px}
+.qbar{display:flex;gap:4px}
+.qbar i{flex:1;height:4px;background:var(--line);transition:background .3s}
+.qbar i.done{background:var(--gold)}
+.qbar i.wrong{background:var(--bad)}
+.qnum{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted)}
+.qtext{font-family:var(--f-display);font-size:var(--s1);font-weight:500;line-height:1.25}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;font:inherit;font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:13px 14px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.opt:active{transform:scale(.99)}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--bg))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 16%,var(--bg))}
+.opt:disabled{cursor:default}
+.qexp{font-size:.95rem;color:var(--muted);min-height:1.5em}
+.qres{text-align:center;display:grid;gap:12px;justify-items:center}
+.qres b{font-family:var(--f-display);font-size:3.4rem;color:var(--gold);line-height:1}
+
+/* SOURCES */
+.src{padding:0;margin:0;display:grid;gap:12px;counter-reset:s}
+.src li{list-style:none;display:grid;grid-template-columns:2em 1fr;font-size:.95rem;counter-increment:s}
+.src li::before{content:counter(s)".";font-family:var(--f-mono);color:var(--gold)}
+.src a{overflow-wrap:anywhere}
+
+footer{margin-top:72px;padding-block:44px calc(44px + env(safe-area-inset-bottom,0px));text-align:center;border-top:1px solid var(--line);display:grid;gap:14px;justify-items:center}
+footer .big{font-family:var(--f-display);font-size:var(--s2);text-transform:uppercase;letter-spacing:.08em}
+footer p{color:var(--muted);font-size:.9rem;max-width:40ch;padding-inline:var(--gutter)}
+.flame{width:34px;height:48px}
+.flame path{transform-origin:50% 100%;animation:flick 1.4s ease-in-out infinite alternate}
+.flame path:nth-child(2){animation-duration:1s;animation-delay:.2s}
+@keyframes flick{from{transform:scaleY(1) skewX(0)}to{transform:scaleY(.9) skewX(3deg)}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .rv.pre{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="hero" id="top">
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="star-wrap" aria-hidden="true">
+      <svg viewBox="0 0 100 100">
+        <polygon class="star-glow" points="50,6 61,38 95,38 67,58 78,92 50,72 22,92 33,58 5,38 39,38"/>
+        <polygon class="star-fill" points="50,6 61,38 95,38 67,58 78,92 50,72 22,92 33,58 5,38 39,38"/>
+        <polygon class="star-outline" points="50,6 61,38 95,38 67,58 78,92 50,72 22,92 33,58 5,38 39,38"/>
+      </svg>
+    </div>
+    <div class="eyebrow">Герой Советского Союза</div>
+    <h1>
+      <span class="line"><span class="first">Павел Семёнович</span></span>
+      <span class="line"><span>Маштаков</span></span>
+    </h1>
+    <div class="years">1920 — 2012</div>
+    <p class="lead">Гвардии старший сержант, командир 76-миллиметрового орудия. В январе 1945 года он остался у пушки один и отбил атаки врага. <em>Наша школа № 17 города Коврова носит его имя.</em></p>
+    <div class="cta">
+      <a class="btn" href="#life">Узнать историю</a>
+      <a class="btn ghost" href="#quiz">Проверь себя</a>
+    </div>
+  </div>
+</header>
+<div class="ribbon" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Разделы">
+  <ul>
+    <li><a href="#life">Жизнь</a></li>
+    <li><a href="#feat">Подвиг</a></li>
+    <li><a href="#route">Путь</a></li>
+    <li><a href="#awards">Награды</a></li>
+    <li><a href="#victory">Победа</a></li>
+    <li><a href="#person">Человек</a></li>
+    <li><a href="#memory">Память</a></li>
+    <li><a href="#words">Словарь</a></li>
+    <li><a href="#check">Источники спорят</a></li>
+    <li><a href="#quiz">Тест</a></li>
+    <li><a href="#sources">Литература</a></li>
+  </ul>
+</nav>
+
+<div class="facts" role="list">
+  <div class="fact rv" role="listitem"><b data-count="9">9</b><span>вражеских танков подбил лично за войну</span></div>
+  <div class="fact rv" role="listitem"><b data-count="6">6</b><span>орудий сменил за годы войны</span></div>
+  <div class="fact rv" role="listitem"><b data-count="30">30</b><span>метров — на таком расстоянии он подпустил танки</span></div>
+  <div class="fact rv" role="listitem"><b data-count="5676">5676</b><span>номер его медали «Золотая Звезда»</span></div>
+</div>
+
+<main>
+<section id="life">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 1</div>
+      <h2>Жизнь героя</h2>
+      <p>От деревенской семилетки до Красной площади. Прокрутите вниз: линия времени заполняется вместе с вами.</p>
+    </div>
+    <div class="tl" id="timeline">
+      <div class="fill" id="tlfill"></div>
+      <div class="ti rv"><time>19 мая 1920</time><h3>Рождение</h3><p>Родился в деревне Большое Высоково Ковровского уезда Владимирской губернии, в крестьянской семье. Сегодня это Савинский район Ивановской области. На надгробии и в книге о нём указана другая дата: 10 июня. Подробнее об этом в главе «Источники спорят».</p></div>
+      <div class="ti rv"><time>1920-е — 1936</time><h3>Детство</h3><p>Учился в сельской школе в селе Вознесенье. Сейчас на этой школе висит мемориальная доска в его честь. В 1936 году окончил семилетку.</p></div>
+      <div class="ti rv"><time>1936 — 1940</time><h3>Ковров</h3><p>Переехал в Ковров к тёте. Окончил школу ФЗУ при заводе имени Малеева и Кангина и получил профессию токаря. Работал на заводе № 2 имени Киркижа (сегодня это завод имени В. А. Дегтярёва). Одновременно учился в Ковровском механическом техникуме, сейчас это энергомеханический колледж, и окончил два курса.</p></div>
+      <div class="ti rv"><time>2 ноября 1940</time><h3>Призыв в армию</h3><p>Ковровский городской военкомат призвал его в Красную армию. Его направили в артиллерию.</p></div>
+      <div class="ti rv"><time>22 июня 1941</time><h3>Начало войны</h3><p>Войну встретил в Закавказье: его полк охранял границы с Турцией и Ираном. Окончил полковую артиллерийскую школу. В октябре 1941 года ушёл на фронт командиром орудия.</p></div>
+      <div class="ti rv"><time>Ноябрь 1941</time><h3>Первый бой и ранение</h3><p>Боевое крещение получил под Таганрогом, на реке Миус. Подбил две вражеские машины и был ранен. После госпиталя попал в 146-й гвардейский артиллерийско-миномётный полк.</p></div>
+      <div class="ti rv"><time>1942 — 1944</time><h3>Сталинград, Десна, Днепр, Белоруссия</h3><p>Сражался под Сталинградом, форсировал Десну и Днепр, освобождал Белоруссию. Одним из первых вышел к государственной границе СССР.</p></div>
+      <div class="ti rv"><time>10 июня 1944</time><h3>Орден Красного Знамени</h3><p>Первая высокая награда за мужество в боях.</p></div>
+      <div class="ti key rv"><time>Январь 1945</time><h3>Бой у Клайнитца</h3><p>В Польше весь расчёт его орудия погиб или был ранен. Маштаков остался один, отбил атаки и помог штабу полка выйти из окружения.</p></div>
+      <div class="ti key rv"><time>24 марта 1945</time><h3>Герой Советского Союза</h3><p>Указом Президиума Верховного Совета СССР ему присвоено звание Героя с вручением ордена Ленина и медали «Золотая Звезда».</p></div>
+      <div class="ti rv"><time>Апрель — май 1945</time><h3>Берлин</h3><p>С полком дошёл до Балтийского моря, участвовал в битве за Берлин. День Победы встретил под Берлином.</p></div>
+      <div class="ti key rv"><time>20 июня 1945</time><h3>Знамя Победы</h3><p>В Москве, на Центральном аэродроме, был ассистентом знаменосца при встрече Знамени Победы, доставленного из Берлина.</p></div>
+      <div class="ti key rv"><time>24 июня 1945</time><h3>Парад Победы</h3><p>Прошёл по Красной площади правофланговым в колонне своего полка.</p></div>
+      <div class="ti rv"><time>Май 1946</time><h3>Демобилизация</h3><p>Уволился в запас в звании старшины и переехал во Владимир.</p></div>
+      <div class="ti rv"><time>1949 — 1986</time><h3>Мирная жизнь</h3><p>В 1949 году окончил Владимирский энергомеханический техникум. С 1950 по 1986 год работал на производственном объединении «Техника»: мастером, старшим мастером, начальником технологического бюро.</p></div>
+      <div class="ti key rv"><time>1975</time><h3>Вечный огонь для Владимира</h3><p>Привёз во Владимир огонь от Могилы Неизвестного солдата в Москве. Сегодня этот Вечный огонь горит на воинском мемориале на площади Победы во Владимире.</p></div>
+      <div class="ti rv"><time>2005 и 2011</time><h3>Почётный гражданин</h3><p>Почётный гражданин Владимира (2005) и Коврова (2011, в некоторых источниках 2012). Много лет занимался военно-патриотической работой и встречался со школьниками.</p></div>
+      <div class="ti rv"><time>Май 2010</time><h3>Прижизненный памятник</h3><p>Во Владимире установили стелу с бронзовым барельефом героя. В том же году вышла книга «Маштаков. Герой Советского Союза».</p></div>
+      <div class="ti rv"><time>9 августа 2012</time><h3>Уход из жизни</h3><p>Умер на 93-м году жизни. Похоронен во Владимире, на аллее Героев кладбища Улыбышево. Он был последним Героем Советского Союза, жившим во Владимирской области.</p></div>
+      <div class="ti rv"><time>2020 и 2025</time><h3>Память продолжается</h3><p>В Коврове отметили 100-летие и 105-летие со дня рождения героя. В 2025 году на вахту памяти у его стелы пришли родственники героя и ученики школы № 17.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="feat">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 2</div>
+      <h2>Подвиг</h2>
+      <p>О бое мы знаем из наградного листа. Это документ, который командир писал, чтобы представить солдата к награде.</p>
+    </div>
+
+    <div class="doc rv">
+      <h3>Наградной лист · пересказ</h3>
+      <p>На позиции орудия наступали семь танков с бронетранспортёрами. Тов. Маштаков подпустил их на 30 метров. Первым снарядом подбил бронетранспортёр, затем головной танк. Остальные танки повернули назад.</p>
+      <p>У населённого пункта Клайнитц противник устроил засаду. Расчёт погиб, гвардии старший сержант Маштаков остался у орудия один. Он вёл огонь по чердакам, где засели вражеские автоматчики, вырвался из окружения и дал товарищам выйти из боя и вынести Знамя полка.</p>
+      <p class="note">Текст изложен своими словами по материалам сайта «Герои страны». Подлинник хранится в Центральном архиве Министерства обороны.</p>
+      <span class="stamp">ГЕРОЙ</span>
+    </div>
+
+    <div class="crew rv" id="crew">
+      <div class="eyebrow">Что значит «остался один»</div>
+      <div class="crew-row" aria-hidden="true"></div>
+      <p>Чтобы стрелять из пушки, нужна команда, которая называется <strong>расчёт</strong>. Один наводит орудие, другой заряжает, третьи подносят снаряды. Командир орудия руководит ими всеми. У Клайнитца Маштакову пришлось делать всё это <strong>одному</strong>.</p>
+    </div>
+
+    <div class="aside rv" style="margin-bottom:28px">
+      <h3>Как вручали награду</h3>
+      <p>Орден Ленина и Золотую Звезду ему вручили прямо на фронте. Его вызвали на совещание командиров дивизий, объявили указ и наградили. Сам Павел Семёнович вспоминал коротко: «Вручали мне прямо на фронте».</p>
+    </div>
+
+    <div class="aside rv">
+      <h3>76-мм орудие</h3>
+      <p>Маштаков командовал 76-миллиметровым орудием, то есть калибр ствола был 76 мм. Самой массовой советской пушкой этого калибра была дивизионная пушка ЗИС-3 конструктора В. Г. Грабина. Она весила около 1,2 тонны и стреляла и по пехоте, и по танкам. Его полк воевал в составе 14-й гвардейской кавалерийской дивизии 7-го гвардейского кавалерийского корпуса 1-го Белорусского фронта.</p>
+    </div>
+  </div>
+</section>
+
+<section id="route">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 3</div>
+      <h2>Боевой путь</h2>
+      <p>От Коврова до Берлина. Нажмите на точку или на этап в списке.</p>
+    </div>
+  </div>
+  <div class="map-box rv">
+    <svg id="map" viewBox="0 0 440 340" role="img" aria-label="Схема боевого пути П. С. Маштакова от Коврова до Берлина"></svg>
+    <p class="map-cap">Схема, а не точная карта. Точки показывают районы боёв приблизительно.</p>
+  </div>
+  <div class="wrap"><div class="stops" id="stops"></div></div>
+</section>
+
+<section id="awards">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 4</div>
+      <h2>Награды</h2>
+      <p>Нажмите на награду, чтобы узнать, за что её вручали.</p>
+    </div>
+    <div class="awards" id="awlist"></div>
+    <p class="hint">Изображения наград условные.</p>
+  </div>
+</section>
+
+<section id="victory">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 5</div>
+      <h2>Знамя и Парад Победы</h2>
+    </div>
+    <div class="banner rv">
+      <svg class="flag" viewBox="0 0 110 120" aria-hidden="true">
+        <rect class="pole" x="4" y="4" width="4" height="114" rx="1"/>
+        <path class="cloth" d="M8 10 H100 V64 H8 Z"/>
+      </svg>
+      <div class="prose">
+        <p>1 мая 1945 года над Рейхстагом в Берлине подняли красное знамя 150-й стрелковой дивизии. Оно и стало Знаменем Победы.</p>
+        <p><strong>20 июня 1945 года</strong> Знамя доставили самолётом в Москву участники штурма Рейхстага, среди них Михаил Егоров и Мелитон Кантария. На Центральном аэродроме имени Фрунзе его принял знаменосец, гвардии старший сержант Фёдор Шкирёв. Рядом с ним стояли два ассистента: Иван Папышев и <strong>Павел Маштаков</strong>.</p>
+        <p>Для солдата это была огромная честь: для встречи главной святыни войны выбрали лучших из лучших.</p>
+        <p><strong>24 июня 1945 года</strong> на Красной площади прошёл Парад Победы. Маштаков шёл в сводной колонне 1-го Белорусского фронта <span class="term" tabindex="0" title="Правофланговый: первый справа в строю. Туда ставили самых достойных и рослых.">правофланговым</span> в колонне своего полка.</p>
+        <p>Знамя Победы на параде так и не пронесли. Позже его передали на вечное хранение в Центральный музей Вооружённых Сил.</p>
+      </div>
+    </div>
+    <div class="aside rv">
+      <h3>Песня о герое</h3>
+      <p>В 1945 году поэт Лев Ошанин и композитор Анатолий Новиков написали о нём песню «Бронебойщик Маштаков». После неё имя артиллериста узнала вся страна. Бронебойщиками называли солдат, которые сражались с вражескими танками.</p>
+    </div>
+  </div>
+</section>
+
+<section id="person">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 6</div>
+      <h2>Каким он был</h2>
+      <p>Звезда Героя — только часть истории. После войны он прожил ещё 67 лет.</p>
+    </div>
+    <div class="cards">
+      <div class="card rv">
+        <div class="card-k">Скромность</div>
+        <p>Павел Семёнович не любил называть себя героем. В интервью владимирскому телевидению в 2009 году он говорил, что просто защищал Родину.</p>
+      </div>
+      <div class="card rv">
+        <div class="card-k">Мастер своего дела</div>
+        <p>До войны он был токарем, после войны стал инженером-производственником. 36 лет он проработал на одном предприятии, в объединении «Техника», и вырос там от мастера до начальника бюро.</p>
+      </div>
+      <div class="card rv">
+        <div class="card-k">Хранитель огня</div>
+        <p>В 1975 году, в год 30-летия Победы, ему доверили привезти во Владимир огонь от Могилы Неизвестного солдата у Кремлёвской стены. Этот огонь до сих пор горит на площади Победы во Владимире.</p>
+      </div>
+      <div class="card rv">
+        <div class="card-k">Наставник</div>
+        <p>Он состоял в областном Совете ветеранов, приходил в школы и на встречи с молодёжью. В 2009 году, когда во всей области он остался последним Героем Советского Союза, его поздравляли молодёжные организации и депутаты.</p>
+      </div>
+      <div class="card rv">
+        <div class="card-k">Семья</div>
+        <p>Родственники вспоминают его как доброго человека, который любил людей и был предан семье. В 2025 году они передали его фотографии и документы в Ковровский историко-мемориальный музей.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="memory">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 7</div>
+      <h2>Память</h2>
+      <p>Ковров — город, откуда он ушёл на фронт.</p>
+    </div>
+    <div class="aside rv" style="margin-bottom:24px">
+      <h3>Ковров — город оружейников</h3>
+      <p>Юный Маштаков работал на заводе, где трудились знаменитые конструкторы оружия В. А. Дегтярёв, Г. С. Шпагин и С. Г. Симонов. В годы войны ковровский завод выпускал для фронта пулемёты и противотанковые ружья. Сегодня Ковров носит почётное звание «Город воинской славы».</p>
+    </div>
+    <div class="mem rv">
+      <ul>
+        <li><span class="tag k">Ковров</span><span>Школа № 17 носит имя Героя Советского Союза Павла Семёновича Маштакова.</span></li>
+        <li><span class="tag k">Ковров</span><span>Стела на Аллее Героев на площади Победы, установлена в 2000 году.</span></li>
+        <li><span class="tag k">Ковров</span><span>Его именем назван проезд Маштакова.</span></li>
+        <li><span class="tag k">Ковров</span><span>Почётный гражданин города Коврова.</span></li>
+        <li><span class="tag k">Ковров</span><span>Мемориальная доска на здании энергомеханического колледжа (бывшего механического техникума), где он учился.</span></li>
+        <li><span class="tag k">Ковров</span><span>Его фотографии и документы хранятся в Ковровском историко-мемориальном музее.</span></li>
+        <li><span class="tag">Владимир</span><span>Средняя школа № 5 (с 2014 года) и остановка транспорта рядом с ней носят его имя. В 2010 году установлена стела с бронзовым барельефом.</span></li>
+        <li><span class="tag">Владимир</span><span>Вечный огонь на площади Победы, который он привёз из Москвы в 1975 году.</span></li>
+        <li><span class="tag">Иваново</span><span>Имя высечено на мемориале Героям-ивановцам. Памятный знак есть в посёлке Савино.</span></li>
+        <li><span class="tag">Вознесенье</span><span>Мемориальная доска Российского военно-исторического общества на школе, где он учился в детстве.</span></li>
+      </ul>
+    </div>
+    <div class="school rv">
+      <h3>Наша школа</h3>
+      <p>МБОУ «Средняя общеобразовательная школа № 17 имени Героя Советского Союза Павла Семёновича Маштакова» города Коврова. Школа работает с 1 сентября 1952 года.</p>
+      <p>Ученики школы хранят память о герое. 10 июня 2025 года, к 105-летию со дня его рождения, участники исторического объединения «Русич» вместе с учителем истории пришли на вахту памяти к стеле Маштакова на Аллее Героев. Там же были его родственники и сотрудники городских музеев.</p>
+      <p>Носить имя героя значит помнить его историю и рассказывать её дальше.</p>
+    </div>
+  </div>
+</section>
+
+<section id="words">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 8</div>
+      <h2>Словарь</h2>
+      <p>Слова из военной истории, которые встречаются на этом сайте. Нажмите на слово, чтобы раскрыть объяснение.</p>
+    </div>
+    <div class="gloss">
+      <details class="rv"><summary>Расчёт</summary><p>Группа солдат, которая обслуживает одно орудие: наводчик, заряжающий, подносчики снарядов. Расчётом руководит командир орудия.</p></details>
+      <details class="rv"><summary>Наводчик</summary><p>Солдат, который направляет ствол орудия на цель. У Клайнитца наводчик погиб, и Маштакову пришлось наводить пушку самому.</p></details>
+      <details class="rv"><summary>Прямая наводка</summary><p>Стрельба, когда артиллерист сам видит цель, как через прицел винтовки. Обычно пушки стреляют издалека, по расчётам. На прямой наводке орудие очень близко к врагу и само становится мишенью.</p></details>
+      <details class="rv"><summary>Бронебойщик</summary><p>Солдат, который борется с вражескими танками и бронемашинами. Бронебойными называют снаряды и пули, пробивающие броню.</p></details>
+      <details class="rv"><summary>Гвардия, гвардейский</summary><p>Почётное звание, которое в войну получали части, отличившиеся в боях. Поэтому к званию добавлялось слово «гвардии»: гвардии старший сержант.</p></details>
+      <details class="rv"><summary>Кавалерийский корпус</summary><p>Крупное соединение конницы. В Великую Отечественную кавалерию использовали для быстрых прорывов в тыл врага. Её артиллерия двигалась вместе с конницей, поэтому орудия часто перевозили на конной тяге.</p></details>
+      <details class="rv"><summary>Форсирование</summary><p>Переправа войск через реку под огнём противника. Форсировать Днепр и Десну было одной из самых тяжёлых задач 1943 года.</p></details>
+      <details class="rv"><summary>Наградной лист</summary><p>Документ, в котором командир описывал подвиг и просил наградить солдата. Подлинники хранятся в архиве Министерства обороны, а их копии можно посмотреть на портале «Память народа».</p></details>
+      <details class="rv"><summary>Указ Президиума Верховного Совета СССР</summary><p>Официальный документ, которым присваивали звание Героя Советского Союза. Дата указа считается датой присвоения звания.</p></details>
+      <details class="rv"><summary>ФЗУ</summary><p>Школа фабрично-заводского ученичества. В ней подростков учили рабочим профессиям прямо при заводе.</p></details>
+      <details class="rv"><summary>Правофланговый</summary><p>Первый справа в строю. На это место ставили самых достойных и рослых: по правофланговому равняется вся колонна.</p></details>
+      <details class="rv"><summary>Демобилизация</summary><p>Увольнение из армии после окончания войны или службы.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="check">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 9 · работа историка</div>
+      <h2>Источники спорят</h2>
+      <p>Историк не верит одному тексту, а сравнивает несколько. Вот где сведения о Маштакове расходятся.</p>
+    </div>
+    <div class="diffs">
+      <div class="diff rv">
+        <h3>Когда у него день рождения?</h3>
+        <div class="vs"><div>19 мая 1920<small>«Герои страны», Википедия, Владимирская областная библиотека</small></div><div>10 июня 1920<small>надгробие, книга «Маштаков. Герой Советского Союза» (2010)</small></div></div>
+        <p>В Коврове юбилеи героя отмечают 10 июня. Точный ответ могла бы дать запись о рождении в церковной или сельсоветской книге 1920 года, если она сохранилась в архиве.</p>
+      </div>
+      <div class="diff rv">
+        <h3>Когда Знамя Победы прибыло в Москву?</h3>
+        <div class="vs"><div>19 мая 1945<small>«Герои страны», Википедия (статья о Маштакове)</small></div><div>20 июня 1945<small>история Знамени Победы, материалы СК России</small></div></div>
+        <p>Здесь помогает сравнение с другими событиями. Знамя привезли специально к Параду Победы 24 июня, и большинство источников называют 20 июня. Дата «19 мая» — это день рождения Маштакова, поэтому похоже, что даты перепутали.</p>
+      </div>
+      <div class="diff rv">
+        <h3>Когда он стал почётным гражданином Коврова?</h3>
+        <div class="vs"><div>2011<small>Владимирская областная библиотека</small></div><div>2012<small>Википедия</small></div></div>
+        <p>8 ноября 2011 года руководство Коврова встречалось с героем. Это подтверждает версию о 2011 годе.</p>
+      </div>
+      <div class="diff rv">
+        <h3>Когда присвоено звание Героя?</h3>
+        <div class="vs"><div>24 марта 1945<small>«Герои страны», Википедия</small></div><div>25 марта 1945<small>Ковровский музей</small></div></div>
+        <p>Справочник «Герои Советского Союза» (1988) называет 24 марта. Ошибка в одну цифру легко появляется при перепечатке.</p>
+      </div>
+      <div class="diff rv">
+        <h3>Что он подбил в первом бою?</h3>
+        <div class="vs"><div>Два танка<small>«Герои страны», Википедия</small></div><div>Два автомобиля<small>владимирские публикации</small></div></div>
+        <p>Ответ мог бы дать документ 1941 года. Поэтому на этом сайте мы пишем осторожно: «две вражеские машины».</p>
+      </div>
+      <div class="diff rv">
+        <h3>Где он учился в Коврове?</h3>
+        <div class="vs"><div>Школа ФЗУ, токарь<small>Ковровский музей, Википедия</small></div><div>Механический техникум<small>«Герои страны»</small></div></div>
+        <p>Областная библиотека называет и то, и другое: сначала он окончил ФЗУ, а потом, работая на заводе, учился в техникуме. Иногда оба источника правы, просто каждый рассказывает часть истории.</p>
+      </div>
+      <div class="diff rv">
+        <h3>Где он родился?</h3>
+        <div class="vs"><div>Ковровский уезд Владимирской губ.<small>Ковровский музей, Википедия</small></div><div>Савинский район Ивановской обл.<small>«Герои страны»</small></div></div>
+        <p>Здесь нет противоречия. Это одна деревня: в 1920 году она входила в Ковровский уезд, а потом границы районов и областей изменились.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Глава 10</div>
+      <h2>Проверь себя</h2>
+      <p>Десять вопросов по этому сайту.</p>
+    </div>
+    <div class="quiz" id="quizbox" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Откуда эти сведения</div>
+      <h2>Источники</h2>
+    </div>
+    <ol class="src">
+      <li><span>Герои Советского Союза: краткий биографический словарь. Т. 2. М.: Воениздат, 1988.</span></li>
+      <li><span>Маштаков. Герой Советского Союза / авт. проекта и сост. В. И. Ишутин. Владимир, 2010. 294 с.</span></li>
+      <li><span>Москвитин Я. П., Нагорный А. Ф. Твои Герои, земля Владимирская: очерки о Героях Советского Союза. Владимир: Посад, 2000. С. 309–312.</span></li>
+      <li><span>Толкунова В. Г. Владимирцы — Герои Советского Союза: библиографический указатель. Владимир, 2015. С. 72–73.</span></li>
+      <li><span>Маштаков Павел Семенович // Владимирская областная научная библиотека, «Календарь знаменательных дат»: <a href="https://land.lib33.ru/site/publication/3507" target="_blank" rel="noopener">land.lib33.ru</a></span></li>
+      <li><span>Вахта памяти Героя СССР П. С. Маштакова у площади Победы // Ковров сегодня, 10.06.2025: <a href="https://kovrovsegodnya.ru/novosti/obshchestvo/38519-vakhta-pamyati-geroya-sssr-p-s-mashtakova-u-ploshchadi-pobedy" target="_blank" rel="noopener">kovrovsegodnya.ru</a></span></li>
+      <li><span>Павел Семёнович Маштаков принимает поздравления // ГТРК «Владимир», 09.12.2009: <a href="https://vladtv.ru/state/11945/" target="_blank" rel="noopener">vladtv.ru</a></span></li>
+      <li><span>Маштаков Павел Семёнович // Герои страны: <a href="https://warheroes.ru/hero/hero.asp?Hero_id=3700" target="_blank" rel="noopener">warheroes.ru</a></span></li>
+      <li><span>Павел Семёнович Маштаков // Ковровский историко-мемориальный музей: <a href="http://kovrov-museum.ru/museum/person/heroesKovrov/PMashtakov/" target="_blank" rel="noopener">kovrov-museum.ru</a></span></li>
+      <li><span>Маштаков, Павел Семёнович // Википедия: <a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%88%D1%82%D0%B0%D0%BA%D0%BE%D0%B2,_%D0%9F%D0%B0%D0%B2%D0%B5%D0%BB_%D0%A1%D0%B5%D0%BC%D1%91%D0%BD%D0%BE%D0%B2%D0%B8%D1%87" target="_blank" rel="noopener">ru.wikipedia.org</a></span></li>
+      <li><span>Законодательное Собрание Владимирской области: <a href="https://www.zsvo.ru/press/view/1344/" target="_blank" rel="noopener">zsvo.ru</a></span></li>
+      <li><span>Подлинные наградные документы можно найти на портале «Память народа»: <a href="https://pamyat-naroda.ru/" target="_blank" rel="noopener">pamyat-naroda.ru</a></span></li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<footer>
+  <svg class="flame" viewBox="0 0 34 48" aria-hidden="true">
+    <path d="M17 2 C24 14 32 20 30 32 C28 42 22 46 17 46 C12 46 6 42 4 32 C2 20 10 14 17 2 Z" fill="var(--orange)"/>
+    <path d="M17 18 C21 25 25 29 24 35 C23 41 20 44 17 44 C14 44 11 41 10 35 C9 29 13 25 17 18 Z" fill="var(--gold)"/>
+  </svg>
+  <div class="big">Помним</div>
+  <p>Мемориальная страница МБОУ СОШ № 17 имени П. С. Маштакова, г. Ковров.</p>
+  <a class="btn ghost" href="#top">Наверх</a>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- reveal ---------- */
+  var rvs = [].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window && !reduce){
+    var vh = window.innerHeight;
+    rvs.forEach(function(el){ if(el.getBoundingClientRect().top > vh*0.92) el.classList.add('pre'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('pre'); io.unobserve(e.target); } });
+    },{rootMargin:'0px 0px -8% 0px'});
+    rvs.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- count up ---------- */
+  var counters = [].slice.call(document.querySelectorAll('[data-count]'));
+  function countUp(el){
+    var to = +el.dataset.count, start = null, dur = to > 100 ? 1600 : 1000;
+    function step(t){ if(!start) start = t; var p = Math.min((t-start)/dur,1); var v = Math.round(to*(1-Math.pow(1-p,3))); el.textContent = v; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window && !reduce){
+    var cio = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); cio.unobserve(e.target);} }); },{threshold:.6});
+    counters.forEach(function(c){ cio.observe(c); });
+  }
+
+  /* ---------- progress, timeline fill, nav ---------- */
+  var prog = document.getElementById('progress');
+  var tl = document.getElementById('timeline'), fill = document.getElementById('tlfill');
+  var items = [].slice.call(tl.querySelectorAll('.ti'));
+  var navLinks = [].slice.call(document.querySelectorAll('.nav a'));
+  var secs = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  var ticking = false, lastActive = null;
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (h>0 ? scrollY/h : 0) + ')';
+    var r = tl.getBoundingClientRect(), mark = innerHeight*0.6;
+    var f = Math.max(0, Math.min(r.height-12, mark - r.top));
+    fill.style.height = f + 'px';
+    items.forEach(function(it){ it.classList.toggle('lit', it.offsetTop < f); });
+    var act = null;
+    secs.forEach(function(s,i){ if(s && s.getBoundingClientRect().top < innerHeight*0.35) act = i; });
+    if(act !== lastActive){
+      navLinks.forEach(function(a,i){ a.classList.toggle('active', i===act); });
+      if(act!==null){ var a = navLinks[act]; a.parentNode.parentNode.scrollTo({left:a.offsetLeft-24, behavior: reduce?'auto':'smooth'}); }
+      lastActive = act;
+    }
+    ticking = false;
+  }
+  addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(onScroll);} }, {passive:true});
+  addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ---------- crew ---------- */
+  var crewRow = document.querySelector('.crew-row');
+  var fig = '<svg viewBox="0 0 40 80"><circle cx="20" cy="12" r="9"/><path d="M8 26 Q20 20 32 26 L34 54 L28 54 L27 78 L13 78 L12 54 L6 54 Z"/></svg>';
+  for(var i=0;i<6;i++) crewRow.insertAdjacentHTML('beforeend', fig);
+  var figs = [].slice.call(crewRow.querySelectorAll('svg'));
+  var heroIdx = 2;
+  function playCrew(){
+    var order = [0,5,1,4,3], d = 0;
+    order.forEach(function(k){ d += 450; setTimeout(function(){ figs[k].classList.add('gone'); }, d); });
+    setTimeout(function(){ figs[heroIdx].classList.add('hero-fig'); }, d+400);
+  }
+  if(reduce || !('IntersectionObserver' in window)){ [0,1,3,4,5].forEach(function(k){figs[k].classList.add('gone');}); figs[heroIdx].classList.add('hero-fig'); }
+  else{
+    var crio = new IntersectionObserver(function(es){ if(es[0].isIntersecting){ playCrew(); crio.disconnect(); } },{threshold:.7});
+    crio.observe(document.getElementById('crew'));
+  }
+
+  /* ---------- route map ---------- */
+  var stops = [
+    {n:'Ковров', y:'1936–1940', lat:56.36, lon:41.32, t:'Работа на заводе. Отсюда 2 ноября 1940 года призван в армию.', dx:6, dy:-10,
+      c:'В эти годы ковровский завод готовился выпускать оружие для армии. Многие молодые рабочие, как Маштаков, потом ушли на фронт.'},
+    {n:'Закавказье', y:'1941', lat:41.7, lon:44.8, t:'Начало войны. Полк охраняет границы с Турцией и Ираном.', dx:-74, dy:4,
+      c:'22 июня 1941 года Германия напала на СССР. Войска на южных границах оставались на месте, чтобы защищать их, а затем частями уходили на фронт.'},
+    {n:'Река Миус', y:'ноябрь 1941', lat:47.3, lon:38.9, t:'Под Таганрогом. Первый бой и ранение.', dx:-62, dy:16,
+      c:'Осенью 1941 года враг рвался к Ростову-на-Дону. 29 ноября Красная армия освободила Ростов, это было одно из первых крупных контрнаступлений войны. Фронт остановился на реке Миус.'},
+    {n:'Сталинград', y:'1942–1943', lat:48.7, lon:44.5, t:'Участие в Сталинградской битве.', dx:8, dy:16,
+      c:'Сталинградская битва шла с 17 июля 1942 по 2 февраля 1943 года. Она закончилась окружением и разгромом 6-й немецкой армии и стала переломом в войне.'},
+    {n:'Десна и Днепр', y:'1943', lat:51.5, lon:31.0, t:'Форсирование крупных рек при освобождении Украины.', dx:-20, dy:22,
+      c:'Битва за Днепр шла с августа по декабрь 1943 года. Враг укрепил берега и называл их «Восточным валом». Форсирование этих рек было одним из самых трудных испытаний.'},
+    {n:'Белоруссия', y:'1944', lat:53.0, lon:27.5, t:'Освобождение Белоруссии. Одним из первых выходит к границе СССР.', dx:4, dy:-12,
+      c:'Летом 1944 года прошла операция «Багратион», одно из крупнейших наступлений войны. Белоруссия была освобождена, и войска вышли к государственной границе СССР.'},
+    {n:'Клайнитц', y:'январь 1945', lat:52.0, lon:15.8, t:'Польша. Подвиг, за который ему присвоено звание Героя.', dx:-26, dy:20,
+      c:'12 января 1945 года началась Висло-Одерская операция. За три недели войска прошли около 500 км, освободили Варшаву и вышли к реке Одер.'},
+    {n:'Берлин', y:'апрель–май 1945', lat:52.5, lon:13.4, t:'Битва за Берлин. Здесь он встретил Победу.', dx:-10, dy:-12,
+      c:'Берлинская операция началась 16 апреля 1945 года. 2 мая Берлин капитулировал, а 9 мая стал Днём Победы.'},
+    {n:'Москва', y:'июнь 1945', lat:55.75, lon:37.6, t:'Встреча Знамени Победы и Парад Победы на Красной площади.', dx:-58, dy:-8,
+      c:'24 июня 1945 года на Красной площади прошёл Парад Победы. Принимал парад маршал Г. К. Жуков, командовал им маршал К. К. Рокоссовский.'}
+  ];
+  var svg = document.getElementById('map'), NS = 'http://www.w3.org/2000/svg';
+  var L0=10, L1=48, B0=40, B1=58, W=440, H=340, k = Math.cos(50*Math.PI/180);
+  var sx = (W-30)/((L1-L0)*k), sy = (H-30)/(B1-B0), sc = Math.min(sx,sy);
+  function P(lat,lon){ return [15 + (lon-L0)*k*sc, H-15-(lat-B0)*sc]; }
+  function el(tag, attrs, parent){ var e = document.createElementNS(NS,tag); for(var a in attrs) e.setAttribute(a, attrs[a]); (parent||svg).appendChild(e); return e; }
+  var g = el('g',{'class':'map-grid'});
+  for(var lo=15; lo<=45; lo+=10){ var a1=P(B0,lo), a2=P(B1,lo); el('line',{x1:a1[0],y1:a1[1],x2:a2[0],y2:a2[1]},g); }
+  for(var la=45; la<=55; la+=5){ var b1=P(la,L0), b2=P(la,L1); el('line',{x1:b1[0],y1:b1[1],x2:b2[0],y2:b2[1]},g); }
+  var pts = stops.map(function(s){ return P(s.lat,s.lon); });
+  var d = 'M' + pts.map(function(p){ return p[0].toFixed(1)+' '+p[1].toFixed(1); }).join(' L');
+  el('path',{d:d,'class':'route-bg'});
+  var route = el('path',{d:d,'class':'route'});
+  var len = route.getTotalLength();
+  route.style.strokeDasharray = len; route.style.strokeDashoffset = reduce ? 0 : len;
+  var segLens = [0], acc = 0;
+  for(var j=1;j<pts.length;j++){ acc += Math.hypot(pts[j][0]-pts[j-1][0], pts[j][1]-pts[j-1][1]); segLens.push(acc); }
+  var ptEls = stops.map(function(s,i){
+    var gg = el('g',{'class':'pt','data-i':i,tabindex:0,role:'button','aria-label':s.n+', '+s.y});
+    el('circle',{cx:pts[i][0],cy:pts[i][1],r:i===6?7:5},gg);
+    var tx = el('text',{x:pts[i][0]+s.dx,y:pts[i][1]+s.dy},gg); tx.textContent = s.n;
+    gg.addEventListener('click', function(){ select(i, true); });
+    gg.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(i,true);} });
+    return gg;
+  });
+  var list = document.getElementById('stops');
+  var btns = stops.map(function(s,i){
+    var b = document.createElement('button'); b.className='stop'; b.type='button';
+    b.innerHTML = '<span class="n">'+String(i+1).padStart(2,'0')+'</span><b>'+s.n+' · '+s.y+'</b><span>'+s.t+'</span><span class="ctx"><i>Что происходило в стране</i>'+s.c+'</span>';
+    b.addEventListener('click', function(){ select(i,false); });
+    list.appendChild(b); return b;
+  });
+  function select(i, fromMap){
+    btns.forEach(function(b,j){ b.classList.toggle('sel', j===i); });
+    ptEls.forEach(function(p,j){ p.classList.toggle('on', j<=i); });
+    route.style.transition = reduce ? 'none' : 'stroke-dashoffset .8s ease';
+    route.style.strokeDashoffset = len - (segLens[i]/acc)*len;
+    if(fromMap) btns[i].scrollIntoView({block:'nearest', behavior: reduce?'auto':'smooth'});
+  }
+  if(reduce || !('IntersectionObserver' in window)){ ptEls.forEach(function(p){p.classList.add('on');}); }
+  else{
+    var mio = new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){
+        mio.disconnect();
+        var start=null, dur=3600;
+        (function step(t){ if(!start) start=t; var p=Math.min((t-start)/dur,1); var e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+          route.style.strokeDashoffset = len*(1-e);
+          var cur = e*acc; ptEls.forEach(function(pe,j){ pe.classList.toggle('on', segLens[j] <= cur+0.5); });
+          if(p<1) requestAnimationFrame(step); })(performance.now());
+      }
+    },{threshold:.4});
+    mio.observe(svg);
+  }
+
+  /* ---------- awards ---------- */
+  function star(fill, r1, r2){ var p=[]; for(var i=0;i<10;i++){ var r=i%2?r2:r1, a=-Math.PI/2+i*Math.PI/5; p.push((32+r*Math.cos(a)).toFixed(1)+','+(32+r*Math.sin(a)).toFixed(1)); } return '<polygon points="'+p.join(' ')+'" fill="'+fill+'"/>'; }
+  function rays(fill,n){ var s=''; for(var i=0;i<n;i++){ s+='<rect x="30.5" y="3" width="3" height="29" fill="'+fill+'" transform="rotate('+(i*360/n)+' 32 32)"/>'; } return s; }
+  var awards = [
+    {main:true, name:'Медаль «Золотая Звезда» № 5676', date:'24.03.1945', icon:'<rect x="24" y="2" width="16" height="12" fill="var(--red)"/>'+star('var(--gold)',28,11), txt:'Знак отличия Героя Советского Союза — высшей степени отличия в СССР. Её получали за подвиг.'},
+    {main:true, name:'Орден Ленина', date:'24.03.1945', icon:'<circle cx="32" cy="32" r="27" fill="var(--gold)"/><circle cx="32" cy="32" r="19" fill="var(--surface-2)"/>'+star('var(--red)',10,4).replace(/32\+/g,'32+'), txt:'Высший орден Советского Союза. Вручался вместе со званием Героя.'},
+    {name:'Орден Красного Знамени', date:'10.06.1944', icon:'<circle cx="32" cy="32" r="26" fill="none" stroke="var(--gold)" stroke-width="5"/>'+star('var(--red)',20,8)+'<rect x="20" y="40" width="24" height="8" fill="var(--red)"/>', txt:'Награда за особую храбрость и мужество, проявленные в бою. Маштаков получил его за выход к государственной границе СССР.'},
+    {name:'Орден Отечественной войны II степени', date:'12.08.1944', icon:rays('var(--muted)',16)+star('var(--red)',22,9), txt:'Орден учредили в 1942 году специально для награждения за подвиги в Великой Отечественной войне.'},
+    {name:'Орден Красной Звезды', date:'06.05.1945', icon:rays('var(--muted)',10)+star('var(--red)',28,11), txt:'Награда за личную храбрость в боях и большой вклад в оборону страны.'},
+    {name:'Орден Отечественной войны I степени', date:'11.03.1985', icon:rays('var(--gold)',16)+star('var(--red)',22,9), txt:'К 40-летию Победы, в 1985 году, этим орденом наградили ветеранов войны.'},
+    {name:'Медали', date:'разные годы', icon:'<rect x="24" y="2" width="16" height="22" fill="var(--orange)"/><rect x="29" y="2" width="6" height="22" fill="var(--ribbon-dark)"/><circle cx="32" cy="42" r="17" fill="var(--muted)"/>', txt:'«За боевые заслуги», «За победу над Германией в Великой Отечественной войне 1941–1945 гг.», юбилейные медали, «Ветеран труда».'}
+  ];
+  var awl = document.getElementById('awlist');
+  awards.forEach(function(a){
+    var b = document.createElement('button'); b.type='button'; b.className='aw rv'+(a.main?' main':''); b.setAttribute('aria-expanded','false');
+    b.innerHTML = '<svg viewBox="0 0 64 64" aria-hidden="true">'+a.icon+'</svg><div><h3>'+a.name+'</h3><time>'+a.date+'</time></div><div class="more"><div><p>'+a.txt+'</p></div></div>';
+    b.addEventListener('click', function(){ b.setAttribute('aria-expanded', b.getAttribute('aria-expanded')==='true'?'false':'true'); });
+    awl.appendChild(b);
+  });
+
+  /* ---------- quiz ---------- */
+  var Q = [
+    {q:'В каком году родился Павел Семёнович Маштаков?', o:['1918','1920','1923','1925'], a:1, e:'Он родился 19 мая 1920 года.'},
+    {q:'Где он работал в Коврове до армии?', o:['На текстильной фабрике','На оружейном заводе','На железной дороге','В колхозе'], a:1, e:'Он работал на оружейном заводе, который сегодня называется заводом имени Дегтярёва.'},
+    {q:'Каким орудием он командовал?', o:['Миномётом','Гаубицей 152 мм','76-мм пушкой','Зенитной установкой'], a:2, e:'Маштаков был командиром 76-миллиметрового орудия.'},
+    {q:'За бой у какого населённого пункта он стал Героем?', o:['Клайнитц','Сталинград','Таганрог','Брест'], a:0, e:'В январе 1945 года у Клайнитца (Польша) он остался у орудия один.'},
+    {q:'На какое расстояние он подпустил вражеские танки?', o:['300 метров','100 метров','30 метров','1 километр'], a:2, e:'Он подпустил танки на 30 метров и подбил первым же снарядом.'},
+    {q:'Что он встречал 20 июня 1945 года на аэродроме в Москве?', o:['Маршала Жукова','Знамя Победы','Эшелон с ранеными','Союзников'], a:1, e:'Он был ассистентом знаменосца при встрече Знамени Победы.'},
+    {q:'Как называется песня о нём?', o:['«Катюша»','«Бронебойщик Маштаков»','«Смуглянка»','«Тёмная ночь»'], a:1, e:'Песню написали поэт Лев Ошанин и композитор Анатолий Новиков.'},
+    {q:'Что он привёз во Владимир в 1975 году?', o:['Знамя полка','Огонь от Могилы Неизвестного солдата','Свою пушку','Землю с Мамаева кургана'], a:1, e:'Этот Вечный огонь горит на площади Победы во Владимире.'},
+    {q:'Как называется команда солдат, которая обслуживает одно орудие?', o:['Взвод','Экипаж','Расчёт','Отделение'], a:2, e:'Расчёт: наводчик, заряжающий, подносчики снарядов и командир орудия.'},
+    {q:'Почему перед званием Маштакова стоит слово «гвардии»?', o:['Он служил в охране Кремля','Его полк получил почётное звание гвардейского за отличие в боях','Так называли всех сержантов','Он был выше всех ростом'], a:1, e:'Гвардейское звание получали части, отличившиеся в боях.'}
+  ];
+  var box = document.getElementById('quizbox'), qi = 0, score = 0, marks = [];
+  function renderQ(){
+    if(qi >= Q.length){ return renderRes(); }
+    var c = Q[qi];
+    var bar = '<div class="qbar">' + Q.map(function(_,i){ return '<i class="'+(marks[i]===true?'done':marks[i]===false?'wrong':'')+'"></i>'; }).join('') + '</div>';
+    box.innerHTML = bar + '<div class="qnum">Вопрос '+(qi+1)+' из '+Q.length+'</div><div class="qtext">'+c.q+'</div><div class="opts">' +
+      c.o.map(function(o,i){ return '<button type="button" class="opt" id="opt'+i+'" data-i="'+i+'">'+o+'</button>'; }).join('') + '</div><div class="qexp"></div>';
+    [].forEach.call(box.querySelectorAll('.opt'), function(b){ b.addEventListener('click', answer); });
+  }
+  function answer(ev){
+    var i = +ev.currentTarget.dataset.i, c = Q[qi], ok = i===c.a;
+    if(ok) score++; marks[qi] = ok;
+    [].forEach.call(box.querySelectorAll('.opt'), function(b,j){ b.disabled = true; if(j===c.a) b.classList.add('right'); else if(j===i) b.classList.add('wrong'); });
+    var bars = box.querySelectorAll('.qbar i'); bars[qi].className = ok?'done':'wrong';
+    var ex = box.querySelector('.qexp');
+    ex.innerHTML = (ok?'<strong>Верно!</strong> ':'<strong>Не совсем.</strong> ') + c.e;
+    var nb = document.createElement('button'); nb.type='button'; nb.className='btn'; nb.textContent = qi<Q.length-1 ? 'Дальше' : 'Результат';
+    nb.style.justifySelf='start';
+    nb.addEventListener('click', function(){ qi++; renderQ(); box.scrollIntoView({block:'nearest', behavior: reduce?'auto':'smooth'}); });
+    box.appendChild(nb); nb.focus({preventScroll:true});
+  }
+  function renderRes(){
+    var msg = score===Q.length ? 'Отлично! Вы знаете историю героя нашей школы.' : score>=7 ? 'Хороший результат! Перечитайте пару глав, и будет идеально.' : 'Загляните ещё раз в главы сайта и попробуйте снова.';
+    box.innerHTML = '<div class="qres"><div class="eyebrow">Ваш результат</div><b>'+score+' / '+Q.length+'</b><p>'+msg+'</p><button type="button" class="btn ghost" id="qagain">Пройти ещё раз</button></div>';
+    document.getElementById('qagain').addEventListener('click', function(){ qi=0; score=0; marks=[]; renderQ(); });
+  }
+  renderQ();
+
+  /* ---------- embers (вечный огонь) ---------- */
+  var cv = document.getElementById('embers');
+  if(cv && !reduce){
+    var ctx = cv.getContext('2d'), parts = [], dpr = Math.min(devicePixelRatio||1, 2), cw, ch, running = true;
+    var cs = getComputedStyle(document.documentElement);
+    function size(){ cw = cv.clientWidth; ch = cv.clientHeight; cv.width = cw*dpr; cv.height = ch*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    size(); addEventListener('resize', size);
+    function spawn(){ return {x: Math.random()*cw, y: ch + Math.random()*20, r: .6+Math.random()*1.8, vy: .25+Math.random()*.7, vx:(Math.random()-.5)*.3, life: 0, max: 200+Math.random()*260, hue: Math.random()<.6 ? 'o':'g'}; }
+    for(var n=0;n<46;n++){ var p = spawn(); p.y = Math.random()*ch; p.life = Math.random()*p.max; parts.push(p); }
+    var colO = cs.getPropertyValue('--orange').trim() || '#e07b22', colG = cs.getPropertyValue('--gold').trim() || '#dcb54c';
+    function frame(){
+      if(!running) return;
+      ctx.clearRect(0,0,cw,ch);
+      parts.forEach(function(p,i){
+        p.life++; p.y -= p.vy; p.x += p.vx + Math.sin((p.life+i*20)/40)*.25;
+        var a = Math.max(0, 1 - p.life/p.max) * Math.min(1, p.life/30);
+        ctx.globalAlpha = a*.85; ctx.fillStyle = p.hue==='o'?colO:colG;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill();
+        if(p.life>p.max || p.y < -10) parts[i] = spawn();
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(frame);
+    }
+    frame();
+    var hio = new IntersectionObserver(function(es){ var vis = es[0].isIntersecting; if(vis && !running){ running = true; frame(); } else if(!vis) running = false; });
+    hio.observe(cv);
+  }
+})();
+</script>
+
+</body>
+</html>
